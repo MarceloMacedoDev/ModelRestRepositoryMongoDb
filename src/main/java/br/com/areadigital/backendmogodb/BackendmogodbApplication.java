@@ -1,17 +1,11 @@
 package br.com.areadigital.backendmogodb;
 
-import br.com.areadigital.backendmogodb.models.Person;
-import br.com.areadigital.backendmogodb.models.Role;
 import br.com.areadigital.backendmogodb.restrepository.PersonRestRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.ApplicationArguments;
-import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
-import java.util.Arrays;
 
 @Slf4j
 @SpringBootApplication
