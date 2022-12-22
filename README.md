@@ -32,7 +32,7 @@ To run this project, you will need to add the following environment variables to
 
 ## API Reference
 
-#### Get all items
+#### Create barear token
 
 ```http
   POST /oauth/token
