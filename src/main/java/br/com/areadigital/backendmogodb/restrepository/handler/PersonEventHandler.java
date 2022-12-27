@@ -3,6 +3,7 @@ package br.com.areadigital.backendmogodb.restrepository.handler;
 import br.com.areadigital.backendmogodb.models.Person;
 import br.com.areadigital.backendmogodb.restrepository.PersonRestRepository;
 import br.com.areadigital.backendmogodb.service.Util;
+import br.com.areadigital.backendmogodb.service.exceptions.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -18,8 +19,6 @@ public class PersonEventHandler extends AbstractRepositoryEventListener<Person> 
     private final BCryptPasswordEncoder passwordEncoder;
     private final PersonRestRepository userRepository;
 
-//    @PersistenceContext
-//    private EntityManager entityManager;
 
     /**
      * Override this method if you are interested in {@literal beforeCreate} events.
@@ -32,20 +31,23 @@ public class PersonEventHandler extends AbstractRepositoryEventListener<Person> 
             if (entity.getPassword().length() > 0)
                 entity.setPassword(passwordEncoder.encode(entity.getPassword()));
         } catch (Exception e) {
-
+            log.error("Password vazio");
+            throw new ResourceNotFoundException("Empty Password");
         }
     }
 
     @Override
     protected void onBeforeSave(Person entity) {
-//        entityManager.detach(entity);
         try {
             if (entity.getPassword().length() > 0)
                 entity.setPassword(passwordEncoder.encode(entity.getPassword()));
         } catch (Exception e) {
-
+            log.error("Password vazio");
+            throw new ResourceNotFoundException("Empty Password");
         } finally {
-            Person s = userRepository.findById(entity.getId()).get();
+            Person s = userRepository.findById(entity.getId()).orElse(
+                  new Person()
+            );
             BeanUtils.copyProperties(entity, s, Util.getNullProperties(entity));
             BeanUtils.copyProperties(s, entity);
         }

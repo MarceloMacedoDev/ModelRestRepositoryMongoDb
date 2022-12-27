@@ -20,7 +20,6 @@ import java.util.Arrays;
 
 @Configuration
 @EnableAuthorizationServer
-//@EnableResourceServer
 public class ResourceServerConfigurerAdapter extends AuthorizationServerConfigurerAdapter {
 	@Value("${security.oauth2.client.client-id}")
 	private String clientId;

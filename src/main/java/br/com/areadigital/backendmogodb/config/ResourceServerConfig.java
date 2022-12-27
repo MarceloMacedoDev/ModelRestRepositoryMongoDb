@@ -35,7 +35,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 	private static final String[] ADMIN = { "/users/**" };	
 	
 
-	public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
+	public void configure(ResourceServerSecurityConfigurer resources) {
 		resources.tokenStore(tokenStore);
 	}
 
