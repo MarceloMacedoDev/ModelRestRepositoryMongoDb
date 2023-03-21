@@ -10,6 +10,10 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.data.rest.core.event.AbstractRepositoryEventListener;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
+/*This class represents an event listener for Person repository.It is responsible for encoding password
+
+ and copying properties of a given entity before it's created or updated in the database.
+  */
 
 @Slf4j
 @Component
@@ -18,7 +22,6 @@ public class PersonEventHandler extends AbstractRepositoryEventListener<Person> 
 
     private final BCryptPasswordEncoder passwordEncoder;
     private final PersonRestRepository userRepository;
-
 
     /**
      * Override this method if you are interested in {@literal beforeCreate} events.
@@ -36,6 +39,11 @@ public class PersonEventHandler extends AbstractRepositoryEventListener<Person> 
         }
     }
 
+    /**
+     * Override this method if you are interested in {@literal beforeSave} events.
+     *
+     * @param entity The entity being saved.
+     */
     @Override
     protected void onBeforeSave(Person entity) {
         try {
@@ -46,10 +54,11 @@ public class PersonEventHandler extends AbstractRepositoryEventListener<Person> 
             throw new ResourceNotFoundException("Empty Password");
         } finally {
             Person s = userRepository.findById(entity.getId()).orElse(
-                  new Person()
+                    new Person()
             );
             BeanUtils.copyProperties(entity, s, Util.getNullProperties(entity));
             BeanUtils.copyProperties(s, entity);
         }
     }
+
 }
