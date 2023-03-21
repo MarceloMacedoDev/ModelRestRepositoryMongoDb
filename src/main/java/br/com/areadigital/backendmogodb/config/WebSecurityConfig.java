@@ -42,8 +42,10 @@ public class WebSecurityConfig {
      */
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return web -> web.ignoring().antMatchers("/actuator/")
-                .antMatchers("/v2/api-docs", "/configuration/ui", "/webjars/", "/h2-console/").antMatchers("/images/", "/js/", "/webjars/");
+        return web -> web.ignoring()
+                .antMatchers("/actuator/")
+                .antMatchers("/v2/api-docs", "/configuration/ui", "/webjars/")
+                ;
     }
     /**
 
